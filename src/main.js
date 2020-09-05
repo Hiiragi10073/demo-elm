@@ -3,14 +3,19 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import axios from 'axios';
-import ElementUI from 'element-ui';
+
+// 引入 vant 组件
+import { Tabbar, TabbarItem, Icon } from 'vant';
 
 // 引入样式
+import '@/styles/base.scss'
 import 'lib-flexible';
-import 'element-ui/lib/theme-chalk/index.css';
+import '@/fonts/iconfont.css';
 
 // 挂载 UI 组件
-Vue.use(ElementUI);
+Vue.use(Tabbar);
+Vue.use(TabbarItem);
+Vue.use(Icon);
 
 // axios 拦截器
 // 请求拦截器
