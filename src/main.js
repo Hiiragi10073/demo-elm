@@ -5,7 +5,7 @@ import store from './store';
 import axios from 'axios';
 
 // 引入 vant 组件
-import { Tabbar, TabbarItem, Icon } from 'vant';
+import { Tabbar, TabbarItem, Icon, Swipe, SwipeItem, Grid, GridItem } from 'vant';
 
 // 引入样式
 import '@/styles/base.scss'
@@ -16,6 +16,10 @@ import '@/fonts/iconfont.css';
 Vue.use(Tabbar);
 Vue.use(TabbarItem);
 Vue.use(Icon);
+Vue.use(Swipe);
+Vue.use(SwipeItem);
+Vue.use(Grid);
+Vue.use(GridItem);
 
 // axios 拦截器
 // 请求拦截器
@@ -37,6 +41,12 @@ axios.defaults.baseURL = 'https://elm.cangdu.org';
 
 // 挂载 axios
 Vue.prototype.$axios = axios;
+
+
+// 过滤器
+Vue.filter('addBaseURL', value => {
+  return 'https://fuss10.elemecdn.com/' + value;
+})
 
 Vue.config.productionTip = false;
 
