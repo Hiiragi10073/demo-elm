@@ -5,7 +5,7 @@ import store from './store';
 import axios from 'axios';
 
 // 引入 vant 组件
-import { Tabbar, TabbarItem, Icon, Swipe, SwipeItem, Grid, GridItem } from 'vant';
+import { Tabbar, TabbarItem, Icon, Swipe, SwipeItem, Grid, GridItem, Rate, List } from 'vant';
 
 // 引入样式
 import '@/styles/base.scss'
@@ -20,28 +20,8 @@ Vue.use(Swipe);
 Vue.use(SwipeItem);
 Vue.use(Grid);
 Vue.use(GridItem);
-
-// axios 拦截器
-// 请求拦截器
-axios.interceptors.request.use(config => {
-  return config;
-}, err => {
-  return Promise.reject(err);
-});
-
-// 响应拦截器
-axios.interceptors.response.use(response => {
-  return response;
-}, err => {
-  return Promise.reject(err);
-});
-
-// axios 基地址
-axios.defaults.baseURL = 'https://elm.cangdu.org';
-
-// 挂载 axios
-Vue.prototype.$axios = axios;
-
+Vue.use(Rate);
+Vue.use(List);
 
 // 过滤器
 Vue.filter('addBaseURL', value => {

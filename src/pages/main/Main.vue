@@ -22,7 +22,7 @@
             <van-grid-item
               v-for="item in categorys.list1"
               :key="item.id"
-              @click="toDetail(item.id)"
+              @click="toCategoryDetail(item.id)"
             >
               <img class="category-img" :src="item.image_url | addBaseURL" />
               <span>{{item.title}}</span>
@@ -34,7 +34,7 @@
             <van-grid-item
               v-for="item in categorys.list2"
               :key="item.id"
-              @click="toDetail(item.id)"
+              @click="toCategoryDetail(item.id)"
             >
               <img class="category-img" :src="item.image_url | addBaseURL" />
               <span>{{item.title}}</span>
@@ -50,6 +50,22 @@
         </template>
       </van-swipe>
     </div>
+    <!-- 附近商家 -->
+    <div class="shop-list">
+      <div class="title">
+        <i class="iconfont icon-shangdian"></i>
+        <span>附近商家</span>
+      </div>
+      <van-list
+        v-model="loading"
+        :finished="finished"
+        finished-text="没有更多了"
+        @load="onLoad"
+        offset="500"
+      >
+        <elm-shop-item v-for="item in shopList" :key="item.id" :data="item"></elm-shop-item>
+      </van-list>
+    </div>
     <!-- 导航栏 -->
     <div class="tabber">
       <elm-tabbar></elm-tabbar>
@@ -59,6 +75,9 @@
 
 <script>
 import elmTabbar from "components/elm-tabbar.vue";
+import elmShopItem from "components/elm-shop-item.vue";
+
+import { getCategory, getShopList } from "@/utils/api.js";
 
 export default {
   data() {
@@ -68,20 +87,52 @@ export default {
         list2: [],
       },
       swipeIndex: 0,
+      // 商店列表
+      shopList: [],
+      loading: false,
+      finished: false,
+      config: {
+        latitude: "100",
+        longitude: "200",
+        offset: 0,
+        limit: 20,
+      },
     };
   },
   components: {
     elmTabbar,
+    elmShopItem,
   },
   methods: {
+    // 获取食品分类
     async getCategorys() {
-      const res = await this.$axios.get("v2/index_entry");
-      const { status, data } = res;
+      const data = await getCategory();
 
-      if (status === 200) {
+      if (data) {
         this.categorys.list1 = data.filter((item, index) => index < 8);
         this.categorys.list2 = data.filter((item, index) => index >= 8);
+      } else {
+        return;
       }
+    },
+
+    // 获取商店列表
+    async getShopList() {
+      const data = await getShopList(this.config);
+
+      if (data) {
+        this.shopList.push(...data);
+        if (this.shopList.length % this.config.limit !== 0) {
+          this.finished = true;
+        }
+      }
+    },
+
+    // 加载更多商店列表
+    async onLoad() {
+      this.config.offset += this.config.limit;
+      await this.getShopList(this.config);
+      this.loading = false;
     },
 
     // 轮播图改变
@@ -90,12 +141,13 @@ export default {
     },
 
     // 去往分类详情
-    toDetail(id) {
+    toCategoryDetail(id) {
       console.log(id);
     },
   },
   created() {
     this.getCategorys();
+    this.getShopList();
   },
 };
 </script>
@@ -161,6 +213,20 @@ export default {
         &.active {
           background-color: #3190e8;
         }
+      }
+    }
+  }
+
+  // 商店列表
+  .shop-list {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #fff;
+    color: #999;
+
+    .title {
+      .iconfont {
+        margin-right: 5px;
       }
     }
   }

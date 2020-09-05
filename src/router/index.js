@@ -16,6 +16,7 @@ const router = new VueRouter({
     { path: '/address', component: Main },
     { path: '/login', component: Main },
     { path: '/register', component: Main },
+    { path: '/shopDetail/:id', component: Main },
   ]
 });
 
