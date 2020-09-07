@@ -2,10 +2,22 @@ import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
 import store from './store';
-import axios from 'axios';
 
 // 引入 vant 组件
-import { Tabbar, TabbarItem, Icon, Swipe, SwipeItem, Grid, GridItem, Rate, List } from 'vant';
+import {
+  Tabbar,
+  TabbarItem,
+  Icon, Swipe,
+  SwipeItem,
+  Grid,
+  GridItem,
+  Rate,
+  List,
+  Cell,
+  Field,
+  NavBar,
+  CellGroup,
+} from 'vant';
 
 // 引入样式
 import '@/styles/base.scss'
@@ -22,6 +34,10 @@ Vue.use(Grid);
 Vue.use(GridItem);
 Vue.use(Rate);
 Vue.use(List);
+Vue.use(Cell);
+Vue.use(Field);
+Vue.use(NavBar);
+Vue.use(CellGroup);
 
 // 过滤器
 Vue.filter('addBaseURL', value => {

@@ -5,8 +5,8 @@
       <router-link to="/search">
         <i class="iconfont icon-search"></i>
       </router-link>
-      <router-link to="/address">
-        <div class="address">虹口区中国建设银行...</div>
+      <router-link to="/address" class="address">
+        <div>{{ $store.getters.address }}</div>
       </router-link>
       <div class="sign">
         <router-link class="link" to="/login">登录</router-link>
@@ -77,7 +77,7 @@
 import elmTabbar from "components/elm-tabbar.vue";
 import elmShopItem from "components/elm-shop-item.vue";
 
-import { getCategory, getShopList } from "@/utils/api.js";
+import { getCategory, getShopList } from "api/api.js";
 
 export default {
   data() {
@@ -92,8 +92,8 @@ export default {
       loading: false,
       finished: false,
       config: {
-        latitude: "100",
-        longitude: "200",
+        latitude: "",
+        longitude: "",
         offset: 0,
         limit: 20,
       },
@@ -147,7 +147,15 @@ export default {
   },
   created() {
     this.getCategorys();
-    this.getShopList();
+
+    if (this.$store.state.addressInfo.address) {
+      this.config.latitude = "" + this.$store.state.addressInfo.latitude;
+      this.config.longitude = "" + this.$store.state.addressInfo.longitude;
+      this.getShopList();
+    } else {
+      this.loading = false;
+      this.finished = true;
+    }
   },
 };
 </script>
@@ -163,6 +171,7 @@ export default {
     left: 0;
     z-index: 999;
     width: 100%;
+    height: 50px;
 
     display: flex;
     justify-content: space-between;
@@ -177,7 +186,10 @@ export default {
     }
 
     .address {
-      font-size: 20px;
+      flex: 1;
+      height: 100%;
+      text-align: center;
+      font-size: 18px;
       color: #fff;
     }
 

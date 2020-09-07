@@ -6,3 +6,9 @@ export const getShopList = (config) => ajax(`${BaseUrl}/shopping/restaurants`, c
 
 // 获取食品分类
 export const getCategory = () => ajax(`${BaseUrl}/v2/index_entry`);
+
+// 获取城市列表
+export const getCityList = (config) => ajax(`${BaseUrl}/v1/cities`, config);
+
+// 搜索地址信息
+export const getAddress = (config) => ajax(`${BaseUrl}/v1/pois`, config);

@@ -18,7 +18,9 @@ module.exports = {
       set('main', resolve('src/pages/main')).
       set('orders', resolve('src/pages/orders')).
       set('search', resolve('src/pages/search')).
-      set('profile', resolve('src/pages/profile'))
+      set('profile', resolve('src/pages/profile')).
+      set('utils', resolve('src/utils')).
+      set('api', resolve('src/api'))
   },
   // 配置 px2rem
   css: {
